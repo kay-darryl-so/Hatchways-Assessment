@@ -6,9 +6,10 @@ export default class Students extends Component{
         super(props);
         this.state={
             showGrades: false,
-            tags:[],
+            tags:this.props.tags,
             newTag:''
         }
+        
     }
 
     getAverage = (grades)=>{
@@ -35,11 +36,11 @@ export default class Students extends Component{
 
     }
     handleAddTag=(event)=>{
-        if (event.code==="Enter"){
+        if (event.key==="Enter"){
             event.preventDefault()
-            if (!this.state.tags.includes(this.state.newTag)&&this.state.newTag!==''){
+            if (!this.state.tags.some(tag=>{return tag===this.state.newTag})&&this.state.newTag!==''){
                 this.setState({
-                    tags: this.state.tags.concat(this.state.newTag),
+                    tags: this.state.tags.concat([this.state.newTag]),
                     newTag:''
                 }, ()=>{
                     this.props.updateTags(this.props.id, this.state.tags)
@@ -70,10 +71,12 @@ export default class Students extends Component{
                         {this.props.grades.map((score, index)=>{
                         return <p key={index}>Test {index+1}: {score}%</p>
                     })}
-                        {this.state.tags.length > 0 ?
+                        {this.state.tags.length > 1 ?
                             <ul>
                                 {this.state.tags.map(tag=>{
-                                    return <li>{tag}</li>
+                                    if (tag !==''){
+                                        return <li>{tag}</li>
+                                    }
                                 })}
                             </ul>
                             : null

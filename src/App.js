@@ -23,7 +23,6 @@ export default class App extends Component {
         this.setState({
           studentData:data.students
         })
-        console.log(data.students)
       })
   }
   
@@ -46,7 +45,7 @@ export default class App extends Component {
     studentObject.find(student=>{
       if (student.id === id){
         student.tags=tag
-        console.log(student)
+        console.log(student.tags)
       }
     })
     this.setState({
@@ -57,21 +56,19 @@ export default class App extends Component {
   
   
   render(){
+    console.log('studentData', this.state.studentData)
     let result=this.state.studentData.filter(student=>{
       return(
         student.firstName.toLowerCase().includes(this.state.searchName) || student.lastName.toLowerCase().includes(this.state.searchName)
       )
     })
-    result=result.filter(student=>{
-      if (this.state.searchTag==='') return student
-      else{
-        let match=false
-        student.tags.forEach(element => {
-          if (element.includes(this.state.searchTag)) match=true
-        });
-        if (match) return student
-      }
-    })
+    if (this.state.searchTag!==''){
+      result=result.filter(student=>{
+        if (student.tags){
+          return student.tags.some(tag=> tag.includes(this.state.searchTag))
+        }
+      })
+    }
     return (
       <div>
         <form>
@@ -90,6 +87,7 @@ export default class App extends Component {
             skill={student.skill} 
             grades={student.grades} 
             id={student.id}
+            tags={student.tags}
             updateTags={this.updateStudentTags.bind(this.student)}
             />
           )
