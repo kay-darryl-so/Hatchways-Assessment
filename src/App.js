@@ -14,7 +14,7 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    fetch('https://hatchways.io/api/assessment/students')
+    fetch('https://api.hatchways.io/assessment/students')
       .then(res => res.json())
       .then(data => {
         data.students.map(student=>{
