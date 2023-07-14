@@ -18,11 +18,12 @@ export default class App extends Component {
       .then(res => res.json())
       .then(data => {
         data.students.map(student=>{
-          return student.tags=''
+          return student.tags=[]
         })
         this.setState({
           studentData:data.students
         })
+        console.log('studentData', this.state.studentData)
       })
   }
   
@@ -45,7 +46,6 @@ export default class App extends Component {
     studentObject.find(student=>{
       if (student.id === id){
         student.tags=tag
-        console.log(student.tags)
       }
     })
     this.setState({
@@ -54,9 +54,7 @@ export default class App extends Component {
     
   }
   
-  
   render(){
-    console.log('studentData', this.state.studentData)
     let result=this.state.studentData.filter(student=>{
       return(
         student.firstName.toLowerCase().includes(this.state.searchName) || student.lastName.toLowerCase().includes(this.state.searchName)
