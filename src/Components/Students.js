@@ -56,7 +56,13 @@ export default class Students extends Component{
                 <p>Company: {this.props.company}</p>
                 <p>Skills: {this.props.skill}</p>
                 <p>Average: {this.getAverage(this.props.grades)}%</p>
-                {this.state.tags.length > 0 ?
+                
+                {this.state.showGrades ?
+                    <div>
+                        {this.props.grades.map((score, index)=>{
+                        return <p key={index}>Test {index+1}: {score}%</p>
+                    })} 
+                        {this.state.tags.length > 0 ?
                             <ul>
                                 {this.state.tags.map(tag=>{
                                     if (tag !==''){
@@ -65,12 +71,7 @@ export default class Students extends Component{
                                 })}
                             </ul>
                             : null
-                }
-                {this.state.showGrades ?
-                    <div>
-                        {this.props.grades.map((score, index)=>{
-                        return <p key={index}>Test {index+1}: {score}%</p>
-                    })} 
+                        }
                         <form onSubmit={e=>e.preventDefault()}>
                             <input className='add-tag-input' type='text' placeholder='add a tag' 
                             onKeyDown={this.handleAddTag}
